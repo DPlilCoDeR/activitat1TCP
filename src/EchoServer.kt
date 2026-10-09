@@ -59,7 +59,9 @@ private fun atendreClient(clientSocket: java.net.Socket) {
                     "INFO"->{
                         "IP:${socket.inetAddress.hostAddress}/${clientSocket.port}"
                     }
-                    linia.startsWith("REVERSE:").toString() ->{}
+                    linia.startsWith("REVERSE:").toString() ->{
+                        linia.removePrefix("REVERSE:").reversed()
+                    }
                    else -> {linia.uppercase()}
 
                 }
