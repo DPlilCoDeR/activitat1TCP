@@ -57,7 +57,7 @@ private fun atendreClient(clientSocket: java.net.Socket) {
                         LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))
                     }
                     "INFO"->{
-                        "IP:${clientSocket.inetAddress.hostAddress}/${clientSocket.port}"
+                        "IP:${socket.inetAddress.hostAddress}/${clientSocket.port}"
                     }
                     linia.startsWith("REVERSE:").toString() ->{}
                    else -> {linia.uppercase()}
