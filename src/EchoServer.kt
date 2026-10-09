@@ -52,16 +52,13 @@ private fun atendreClient(clientSocket: java.net.Socket) {
             while (linia != null && !linia.equals("sortir", ignoreCase = true)) {
                 println("[Servidor <- ${socket.inetAddress.hostAddress}] Rebut: $linia")
 
-               val resposta = when(linia) {
-                    "TIME"->{
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))
-                    }
-                    "INFO"->{
-                        "IP:${socket.inetAddress.hostAddress}/${clientSocket.port}"
-                    }
-                    linia.startsWith("REVERSE:").toString() ->{
-                        linia.removePrefix("REVERSE:").reversed()
-                    }
+               val resposta = when {
+                    linia == "TIME"-> LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))
+
+                    linia == "INFO"-> "IP: ${socket.inetAddress.hostAddress} PORT: ${clientSocket.port}"
+
+                    linia.startsWith("REVERSE:") -> linia.removePrefix("REVERSE:").reversed()
+
                    else -> {linia.uppercase()}
 
                 }
