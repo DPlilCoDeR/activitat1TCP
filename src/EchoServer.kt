@@ -12,6 +12,8 @@
 //Nota: Proveu d’obrir dues terminals de client simultàniament contra el mateix servidor
 // i observa que passa.
 
+import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import java.net.ServerSocket
 import java.net.SocketException
 import java.time.LocalDateTime
@@ -20,6 +22,8 @@ import java.time.format.DateTimeFormatter
 fun main() {
     val port = 9000
     println("[Servidor] Iniciant servei d'eco al port $port...")
+
+    val serverScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     // Fem servir .use per assegurar el tancament en aturar el programa
     ServerSocket(port).use { serverSocket ->
@@ -34,7 +38,9 @@ fun main() {
             println("[Servidor] Client connectat des de: ${clientSocket.remoteSocketAddress}")
 
             // Atenem el client connectat
-            atendreClient(clientSocket)
+            serverScope.launch {
+                atendreClient(clientSocket)
+            }
         }
     }
 }
